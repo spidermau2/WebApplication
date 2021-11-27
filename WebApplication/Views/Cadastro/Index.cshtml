@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Cadastro";
+    string alerta = ViewBag.Mensagem ?? "";
+}
+
+<script>
+    $(document).ready(function () {
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        if (activeTab) {
+            $('#myTab a[href="' + activeTab + '"]').tab('show');
+        }
+
+        if("@alerta" != "")
+        {
+            alert("@alerta");
+        }
+    });
+</script>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a href="#sectionA" class="nav-link active" data-toggle="tab">
+            Pessoa
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#sectionB" class="nav-link" data-toggle="tab">
+            Pagamento
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#sectionC" class="nav-link" data-toggle="tab">
+            Quarto
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#sectionD" class="nav-link" data-toggle="tab">
+            Refeição
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#sectionE" class="nav-link" data-toggle="tab">
+            Reserva
+        </a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div id="sectionA" class="tab-pane fade show active">
+        <partial name="Pessoa">
+    </div>
+    <div id="sectionB" class="tab-pane fade">
+        <partial name="Pagamento">
+    </div>
+    <div id="sectionC" class="tab-pane fade">
+        <partial name="Quarto">
+    </div>
+    <div id="sectionD" class="tab-pane fade">
+        <partial name="Refeicao">
+    </div>
+    <div id="sectionE" class="tab-pane fade">
+        <partial name="Reserva">
+    </div>
+</div>

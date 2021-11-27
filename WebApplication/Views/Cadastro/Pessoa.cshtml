@@ -1,0 +1,65 @@
+﻿@model Cliente
+@using WebApplication.Controllers;
+@{
+    List<Cliente> clientes = CadastroController.GetClientes();
+}
+
+<div class="row">
+    <div class="col">
+        <h4 class="my-4">Cadastro de pessoas</h4>
+        <div style="width: 18rem;">
+            <form method="post" action="@Url.Action("CadastroCliente", "Cadastro")">
+                @Html.AntiForgeryToken()
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.Rg, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Rg, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Rg, "", new { @class = "text-danger" })
+                </div>
+
+                <button type="submit" class="btn btn-block btn-primary mt-4">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+    <div class="col">
+        @if (clientes.Count > 0)
+        {
+            <table class="table my-4">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Cpf</th>
+                        <th scope="col">Rg</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Cliente cliente in clientes)
+                    {
+                        <tr>
+                            <td>@cliente.Nome</td>
+                            <td>@cliente.Rg</td>
+                            <td>@cliente.Cpf</td>
+                            <td>
+                                <form method="post" action="@Url.Action("DeleteCliente", "Cadastro", cliente)">
+                                    <button class="btn btn-danger" type="submit">
+                                        Excluir
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

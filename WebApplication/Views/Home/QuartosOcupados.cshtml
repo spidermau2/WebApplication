@@ -1,0 +1,25 @@
+﻿@using WebApplication.Controllers;
+@{
+    ViewData["Title"] = "Quartos Ocupados";
+    List<Quarto> quartos = HomeController.GetQuartosOcupados();
+}
+
+<table class="table my-4">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Valor</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Quarto quarto in quartos)
+        {
+            <tr>
+                <td>@quarto.IdQuarto</td>
+                <td>@quarto.Descricao</td>
+                <td>@quarto.Valor</td>
+            </tr>
+        }
+    </tbody>
+</table>

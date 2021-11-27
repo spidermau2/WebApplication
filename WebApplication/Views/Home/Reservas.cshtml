@@ -1,0 +1,82 @@
+﻿@using WebApplication.Controllers;
+@{
+    ViewData["Title"] = "Reservas";
+    List<Reserva> reservas = CadastroController.GetReservas();
+
+    List<Cliente> clientes = CadastroController.GetClientes();
+    List<FormaPagamento> formaPagamentos = CadastroController.GetFormaPagamentos();
+    List<Quarto> quartos = CadastroController.GetQuartos();
+    List<Refeicao> refeicoes = CadastroController.GetRefeicoes();
+}
+
+<table class="table my-4">
+    <thead>
+        <tr>
+            <th scope="col">Reserva</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Pagamento</th>
+            <th scope="col">Quarto</th>
+            <th scope="col">Refeição</th>
+            <th scope="col">Hora de entrada</th>
+            <th scope="col">Hora de saída</th>
+            <th scope="col">Pago</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Reserva reserva in reservas)
+        {
+            <tr>
+                <td>@reserva.IdReserva</td>
+                <td>@reserva.QuantidadeReserva</td>
+                @foreach (Cliente cliente in clientes)
+                {
+                    if (cliente.IdCliente == reserva.IdCliente)
+                    {
+                        <td>@cliente.Nome</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+                @foreach (FormaPagamento formaPagamento in formaPagamentos)
+                {
+                    if (formaPagamento.IdFormaPagamento == reserva.IdPagamento)
+                    {
+                        <td>@formaPagamento.Descricao</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+                @foreach (Quarto quarto in quartos)
+                {
+                    if (quarto.IdQuarto == reserva.IdQuarto)
+                    {
+                        <td>@quarto.Descricao</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+                @foreach (Refeicao refeicao in refeicoes)
+                {
+                    if (refeicao.IdRefeicao == reserva.IdRefeicao)
+                    {
+                        <td>@refeicao.Descricao</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+                <td>@reserva.HoraEntrada</td>
+                <td>@reserva.HoraSaida</td>
+                <td>@reserva.Pago</td>
+            </tr>
+        }
+    </tbody>
+</table>

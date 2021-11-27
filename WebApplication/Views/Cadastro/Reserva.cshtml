@@ -1,0 +1,111 @@
+﻿@model Reserva
+@using WebApplication.Controllers;
+@{
+    List<Reserva> reservas = CadastroController.GetReservas();
+
+    List<Cliente> clientes = CadastroController.GetClientes();
+    List<FormaPagamento> formaPagamentos = CadastroController.GetFormaPagamentos();
+    List<Quarto> quartos = CadastroController.GetQuartos();
+    List<Refeicao> refeicoes = CadastroController.GetRefeicoes();
+}
+
+
+<div class="row">
+    <div class="col">
+        <h4 class="my-4">Cadastro de reservas</h4>
+        <div style="width: 18rem;">
+            <form method="post" action="@Url.Action("CadastroReserva", "Cadastro")">
+                @Html.AntiForgeryToken()
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.IdCliente, htmlAttributes: new { @class = "control-label" })
+                    <select class="form-control" asp-for="IdCliente"
+                            asp-items="@(new SelectList(clientes, nameof(Cliente.IdCliente), nameof(Cliente.Nome)))">
+                        <option>Selecione um cliente</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.IdCliente, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.IdPagamento, htmlAttributes: new { @class = "control-label" })
+                    <select class="form-control" asp-for="IdPagamento"
+                            asp-items="@(new SelectList(formaPagamentos, nameof(FormaPagamento.IdFormaPagamento), nameof(FormaPagamento.Descricao)))">
+                        <option>Selecione uma forma de pagamento</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.IdPagamento, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.IdQuarto, htmlAttributes: new { @class = "control-label" })
+                    <select class="form-control" asp-for="IdQuarto"
+                            asp-items="@(new SelectList(quartos, nameof(Quarto.IdQuarto), nameof(Quarto.Descricao)))">
+                        <option>Selecione um quarto</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.IdQuarto, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.IdRefeicao, htmlAttributes: new { @class = "control-label" })
+                    <select class="form-control" asp-for="IdRefeicao"
+                            asp-items="@(new SelectList(refeicoes, nameof(Refeicao.IdRefeicao), nameof(Refeicao.Descricao)))">
+                        <option>Selecione uma refeição</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.IdRefeicao, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.HoraEntrada, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.HoraEntrada, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.HoraEntrada, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.HoraSaida, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.HoraSaida, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.HoraSaida, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.QuantidadeReserva, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.QuantidadeReserva, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.QuantidadeReserva, "", new { @class = "text-danger" })
+                </div>
+
+                <button type="submit" class="btn btn-block btn-primary mt-4">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+    <div class="col">
+        @if (reservas.Count > 0)
+        {
+            <table class="table my-4">
+                <thead>
+                    <tr>
+                        <th scope="col">Quantidade</th>
+                        <th scope="col">Id Cliente</th>
+                        <th scope="col">Id Pagamento</th>
+                        <th scope="col">Id Quarto</th>
+                        <th scope="col">Id Refeição</th>
+                        <th scope="col">Hora de entrada</th>
+                        <th scope="col">Hora de saída</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Reserva reserva in reservas)
+                    {
+                        <tr>
+                            <td>@reserva.QuantidadeReserva</td>
+                            <td>@reserva.IdCliente</td>
+                            <td>@reserva.IdPagamento</td>
+                            <td>@reserva.IdQuarto</td>
+                            <td>@reserva.IdRefeicao</td>
+                            <td>@reserva.HoraEntrada</td>
+                            <td>@reserva.HoraSaida</td>
+                            <td>
+                                <form method="post" action="@Url.Action("DeleteReserva", "Cadastro", reserva)">
+                                    <button class="btn btn-danger" type="submit">
+                                        Excluir
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

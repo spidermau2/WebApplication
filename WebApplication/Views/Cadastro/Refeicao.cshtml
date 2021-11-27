@@ -1,0 +1,58 @@
+﻿@model Refeicao
+@using WebApplication.Controllers;
+@{
+    List<Refeicao> refeicoes = CadastroController.GetRefeicoes();
+}
+
+<div class="row">
+    <div class="col">
+        <h4 class="my-4">Cadastro de pratos</h4>
+        <div style="width: 18rem;">
+            <form method="post" action="@Url.Action("CadastroRefeicoes", "Cadastro")">
+                @Html.AntiForgeryToken()
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.Valor, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
+                </div>
+
+                <button type="submit" class="btn btn-block btn-primary mt-4">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+    <div class="col">
+        @if (refeicoes.Count > 0)
+        {
+            <table class="table my-4">
+                <thead>
+                    <tr>
+                        <th scope="col">Prato</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Refeicao refeicao in refeicoes)
+                    {
+                        <tr>
+                            <td>@refeicao.Descricao</td>
+                            <td>@refeicao.Valor</td>
+                            <td>
+                                <form method="post" action="@Url.Action("DeleteRefeicao", "Cadastro", refeicao)">
+                                    <button class="btn btn-danger" type="submit">
+                                        Excluir
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

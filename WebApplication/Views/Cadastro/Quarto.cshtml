@@ -1,0 +1,58 @@
+﻿@model Quarto
+@using WebApplication.Controllers;
+@{
+    List<Quarto> quartos = CadastroController.GetQuartos();
+}
+
+<div class="row">
+    <div class="col">
+        <h4 class="my-4">Cadastro de refeições</h4>
+        <div style="width: 18rem;">
+            <form method="post" action="@Url.Action("CadastroQuarto", "Cadastro")">
+                @Html.AntiForgeryToken()
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group text-left">
+                    @Html.LabelFor(model => model.Valor, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
+                </div>
+
+                <button type="submit" class="btn btn-block btn-primary mt-4">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+    <div class="col">
+        @if (quartos.Count > 0)
+        {
+            <table class="table my-4">
+                <thead>
+                    <tr>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Quarto quarto in quartos)
+                    {
+                        <tr>
+                            <td>@quarto.Descricao</td>
+                            <td>@quarto.Valor</td>
+                            <td>
+                                <form method="post" action="@Url.Action("DeleteQuarto", "Cadastro", quarto)">
+                                    <button class="btn btn-danger" type="submit">
+                                        Excluir
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

@@ -1,0 +1,41 @@
+﻿@using WebApplication.Controllers;
+@{
+    ViewData["Title"] = "Caixa";
+    List<Resumo> resumos = HomeController.GetResumos();
+}
+
+<table class="table my-4">
+    <thead>
+        <tr>
+            <th scope="col">Reserva</th>
+            <th scope="col">Entrada</th>
+            <th scope="col">Saida</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Pagamento</th>
+            <th scope="col">Quarto</th>
+            <th scope="col">Refeição</th>
+            <th scope="col">Valor Quarto</th>
+            <th scope="col">Valor Refeição</th>
+            <th scope="col">Pago</th>
+            <th scope="col">Quantidade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Resumo resumo in resumos)
+        {
+            <tr>
+                <td>@resumo.Reserva</td>
+                <td>@resumo.Entrada</td>
+                <td>@resumo.Saida</td>
+                <td>@resumo.Cliente</td>
+                <td>@resumo.Pagamento</td>
+                <td>@resumo.Quarto</td>
+                <td>@resumo.Refeicao</td>
+                <td>@resumo.ValorQuarto</td>
+                <td>@resumo.ValorRefeicao</td>
+                <td>@resumo.Pago</td>
+                <td>@resumo.Quantidade</td>
+            </tr>
+        }
+    </tbody>
+</table>
